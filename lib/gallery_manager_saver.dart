@@ -6,19 +6,19 @@ class GalleryManagerSaver {
     return GalleryManagerSaverPlatform.instance.getPlatformVersion();
   }
 
-  static Future<List<String>> getExternalStorageDirectories() async {
+  Future<List<String>> getExternalStorageDirectories() async {
     return await GalleryManagerSaverPlatform.instance
         .getExternalStorageDirectories();
   }
 
-  static Future<String> getExternalStorageDefaultDirectoriesPath(
+  Future<String> getExternalStorageDefaultDirectoriesPath(
       {required Environment environment}) async {
     return await GalleryManagerSaverPlatform.instance
         .getExternalStorageDefaultDirectoriesPath(
             getEnvironmentDir(environment));
   }
 
-  static Future<bool?> createAlbum({
+  Future<bool?> createAlbum({
     required String albumName,
     required Environment environment,
   }) async {
@@ -26,7 +26,7 @@ class GalleryManagerSaver {
         albumName: albumName, albumType: getEnvironmentDir(environment));
   }
 
-  static Future<String?> getPathAlbum({
+  Future<String?> getPathAlbum({
     required String albumName,
     required Environment environment,
   }) async {
@@ -34,7 +34,7 @@ class GalleryManagerSaver {
         albumName: albumName, albumType: getEnvironmentDir(environment));
   }
 
-  static Future<String?> getPathFileInAlbum(
+  Future<String?> getPathFileInAlbum(
       {required String albumName,
       required Environment environment,
       required String fileName}) async {
@@ -44,7 +44,7 @@ class GalleryManagerSaver {
         fileName: fileName);
   }
 
-  static Future<bool?> saveVideo(
+  Future<bool?> saveVideo(
     String path, {
     String? albumName,
     required Environment environment,
@@ -58,7 +58,7 @@ class GalleryManagerSaver {
         headers: headers);
   }
 
-  static Future<bool?> saveImage(
+  Future<bool?> saveImage(
     String path, {
     String? albumName,
     required Environment environment,
@@ -72,7 +72,7 @@ class GalleryManagerSaver {
         headers: headers);
   }
 
-  static Future<bool?> hasExternalStorageDirectoryWithPath({
+  Future<bool?> hasExternalStorageDirectoryWithPath({
     required Environment environment,
   }) async {
     return await GalleryManagerSaverPlatform.instance
@@ -80,7 +80,7 @@ class GalleryManagerSaver {
             albumType: getEnvironmentDir(environment));
   }
 
-  static Future<bool?> hasExternalStorageFileWithPath({
+  Future<bool?> hasExternalStorageFileWithPath({
     required String albumName,
     required Environment environment,
   }) async {
@@ -89,7 +89,7 @@ class GalleryManagerSaver {
             albumName: albumName, albumType: getEnvironmentDir(environment));
   }
 
-  static Future<bool?> hasExternalStoragePrivateFile({
+  Future<bool?> hasExternalStoragePrivateFile({
     required String albumName,
     required Environment environment,
   }) async {
@@ -98,7 +98,7 @@ class GalleryManagerSaver {
             albumName: albumName, albumType: getEnvironmentDir(environment));
   }
 
-  static Future<String?> getAlbumFolderPathWithCall({
+  Future<String?> getAlbumFolderPathWithCall({
     required String albumName,
     required Environment environment,
     bool? toDcim = false,
