@@ -145,7 +145,9 @@ class FilesUtils {
         val extension = MimeTypeMap.getFileExtensionFromUrl(inputFile.toString())
         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
 
-        var directory = getEnvironmentfile(albumType)
+        var directory =""
+        if(albumType == "DIRECTORY_MOVIES"){directory = Environment.DIRECTORY_MOVIES}
+        if(albumType == "DIRECTORY_PICTURES"){directory = Environment.DIRECTORY_PICTURES}
         if (toDcim) {
             directory = Environment.DIRECTORY_DCIM
         }

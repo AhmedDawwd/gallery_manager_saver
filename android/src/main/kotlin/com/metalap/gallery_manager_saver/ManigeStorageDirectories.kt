@@ -31,11 +31,11 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun getExternalStorageDirectories() : ArrayList<String> {
         var extRootPaths: ArrayList<String> = ArrayList<String>()
-        if (isWritePermissionGranted()|| android.os.Build.VERSION.SDK_INT >= 19) {
+       // if (isWritePermissionGranted()|| android.os.Build.VERSION.SDK_INT >= 19) {
             val appsDir: Array<File> = context.getExternalFilesDirs(null)
             for (file: File in appsDir)
                 extRootPaths.add(file.absolutePath)
-        }
+       //}
         return extRootPaths;
         // return Environment.getExternalStorageDirectory().toString();
     }
@@ -43,12 +43,12 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun getExternalStorageDefaultDirectoriesPath(call: MethodCall): String? {
         val albumType = call.argument<String>("albumType")
-        if (isWritePermissionGranted()) {
+       // if (isWritePermissionGranted()) {
             val environmentfile = albumType?.let { filesUtils?.getEnvironmentfile(it) }
             val path: File? = context.getExternalFilesDir(environmentfile.toString())
 
             return path?.path.toString()
-        }
+      //  }
         return  null
     }
 
@@ -56,7 +56,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
     fun hasExternalStoragePrivateFile(call: MethodCall): Boolean {
         val albumName = call.argument<String>("albumName")
         val albumType = call.argument<String>("albumType")
-        if (isWritePermissionGranted()) {
+       // if (isWritePermissionGranted()) {
             val environmentfile = albumType?.let { filesUtils?.getEnvironmentfile(it) }
             val file = albumName?.let { File(context.getExternalFilesDir(environmentfile), it) };
             if (file != null) {
@@ -64,35 +64,35 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
                     return true;
                 }
             }
-        }
+        //}
         return false;
     }
 
     fun hasExternalStorageFileWithPath(call: MethodCall): Boolean {
         val albumName = call.argument<String>("albumName")
         val path = call.argument<String>("albumType")
-        if (isWritePermissionGranted()) {
+        //if (isWritePermissionGranted()) {
             val file = albumName?.let { File(path, it) };
             if (file != null) {
                 if (file.exists()) {
                     return true;
                 }
             }
-        }
+       // }
         return false;
     }
 
     fun hasExternalStorageDirectoryWithPath(call: MethodCall): Boolean {
         val path = call.argument<String>("albumType")
-        if (isWritePermissionGranted()) {
+        //if (isWritePermissionGranted()) {
             val file = path?.let { File(it) };
             if (file != null) {
                 if (file.exists()) {
                     return true;
                 }
             }
-        }
-        return false;
+       // }
+       return false;
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -100,7 +100,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
         val albumName = call.argument<String>("albumName")
         val albumType = call.argument<String>("albumType")
 
-        if (isWritePermissionGranted()) {
+       // if (isWritePermissionGranted()) {
             if (albumName != null) {
                 val environmentfile = albumType?.let { filesUtils?.getEnvironmentfile(it) }
                 val rootFile = File(context.getExternalFilesDir(environmentfile), albumName)
@@ -108,7 +108,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
                     rootFile.mkdirs()
                     return true
                 }
-            }
+         //   }
         }
         return false
     }
@@ -117,7 +117,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
     fun getPathAlbum(call: MethodCall): String? {
         val albumName = call.argument<String>("albumName")
         val albumType = call.argument<String>("albumType")
-        if (isWritePermissionGranted()) {
+       // if (isWritePermissionGranted()) {
             if (albumName != null) {
                 val environmentfile = albumType?.let { filesUtils?.getEnvironmentfile(it) }
                 val rootFile = File(context.getExternalFilesDir(environmentfile), albumName)
@@ -125,7 +125,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
                 if (rootFile.exists()) {
                     return rootFile.path.toString()
                 }
-            }
+          //  }
         }
         return null
     }
@@ -136,7 +136,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
         val albumType = call.argument<String>("albumType")
         val fileName = call.argument<String>("fileName")
 
-        if (isWritePermissionGranted()) {
+       // if (isWritePermissionGranted()) {
             if (albumName != null&& fileName !=null) {
                 val environmentfile = albumType?.let { filesUtils?.getEnvironmentfile(it) }
                 val rootFile =
@@ -146,7 +146,7 @@ class ManageStorageDirectories internal constructor(private val activity: Activi
                     return rootFile.path.toString()
                 }
             }
-        }
+      //  }
         return null
     }
 

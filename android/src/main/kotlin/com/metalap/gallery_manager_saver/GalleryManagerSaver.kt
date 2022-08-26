@@ -108,6 +108,7 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
         pendingResult = null
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -118,7 +119,7 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
             val permissionGranted = grantResults.isNotEmpty()
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
             if (permissionGranted) {
-               // saveMediaFile()
+                saveMediaFile()
             } else {
                 //finishWithFailure()
             }
