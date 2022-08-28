@@ -47,28 +47,61 @@ class GalleryManagerSaver {
   Future<bool?> saveVideo(
     String path, {
     String? albumName,
-    required Environment environment,
     bool? toDcim = false,
+    bool? toMovies = true,
+    bool? toPictures = false,
     Map<String, String>? headers,
   }) async {
+    if (toDcim!) {
+      toMovies = false;
+      toPictures = false;
+    } else if (toMovies!) {
+      toDcim = false;
+      toPictures = false;
+    } else if (toPictures!) {
+      toMovies = false;
+      toDcim = false;
+    } else if (!toDcim && !toMovies && !toPictures) {
+      toDcim = true;
+      toMovies = false;
+      toPictures = false;
+    }
+
     return await GalleryManagerSaverPlatform.instance.saveVideo(path,
         albumName: albumName,
-        albumType: getEnvironmentDir(environment),
         toDcim: toDcim,
+        toMovies: toMovies,
+        toPictures: toPictures,
         headers: headers);
   }
 
   Future<bool?> saveImage(
     String path, {
     String? albumName,
-    required Environment environment,
     bool? toDcim = false,
+    bool? toMovies = false,
+    bool? toPictures = true,
     Map<String, String>? headers,
   }) async {
+    if (toDcim!) {
+      toMovies = false;
+      toPictures = false;
+    } else if (toMovies!) {
+      toDcim = false;
+      toPictures = false;
+    } else if (toPictures!) {
+      toMovies = false;
+      toDcim = false;
+    } else if (!toDcim && !toMovies && !toPictures) {
+      toDcim = false;
+      toMovies = false;
+      toPictures = true;
+    }
     return await GalleryManagerSaverPlatform.instance.saveImage(path,
         albumName: albumName,
-        albumType: getEnvironmentDir(environment),
         toDcim: toDcim,
+        toMovies: toMovies,
+        toPictures: toPictures,
         headers: headers);
   }
 
@@ -100,13 +133,16 @@ class GalleryManagerSaver {
 
   Future<String?> getAlbumFolderPathWithCall({
     required String albumName,
-    required Environment environment,
     bool? toDcim = false,
+    bool? toMovies = false,
+    bool? toPictures = false,
   }) async {
     return await GalleryManagerSaverPlatform.instance
         .getAlbumFolderPathWithCall(
-            albumName: albumName,
-            albumType: getEnvironmentDir(environment),
-            toDcim: toDcim);
+      albumName: albumName,
+      toDcim: toDcim,
+      toMovies: toMovies,
+      toPictures: toPictures,
+    );
   }
 }

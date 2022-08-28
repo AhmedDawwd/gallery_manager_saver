@@ -45,7 +45,8 @@ class FilesUtils {
         path: String,
         folderName: String?,
         toDcim: Boolean,
-        albumType: String
+        toMovies: Boolean,
+        toPictures: Boolean,
     ): Boolean {
         val file = File(path)
         val extension = MimeTypeMap.getFileExtensionFromUrl(file.toString())
@@ -53,8 +54,11 @@ class FilesUtils {
         var source = getBytesFromFile(file)
 
 
-        var directory = getEnvironmentfile(albumType)
-        if (toDcim) {
+        var directory = Environment.DIRECTORY_DCIM
+
+        if(toMovies){directory = Environment.DIRECTORY_MOVIES}
+        else if( toPictures){directory = Environment.DIRECTORY_PICTURES}
+        else if (toDcim) {
             directory = Environment.DIRECTORY_DCIM
         }
 
@@ -63,7 +67,7 @@ class FilesUtils {
         if (rotatedBytes != null) {
             source = rotatedBytes
         }
-        val albumDir = File(getAlbumFolderPath(folderName, toDcim,albumType))
+        val albumDir = File(getAlbumFolderPath(folderName, toDcim,toMovies,toPictures))
         val imageFilePath = File(albumDir, file.name).absolutePath
 
         val values = ContentValues()
@@ -134,8 +138,9 @@ class FilesUtils {
         contentResolver: ContentResolver,
         inputPath: String,
         folderName: String?,
-        albumType: String,
         toDcim: Boolean,
+        toMovies: Boolean,
+        toPictures: Boolean,
         bufferSize: Int = BUFFER_SIZE
     ): Boolean {
         val inputFile = File(inputPath)
@@ -145,14 +150,15 @@ class FilesUtils {
         val extension = MimeTypeMap.getFileExtensionFromUrl(inputFile.toString())
         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
 
-        var directory =""
-        if(albumType == "DIRECTORY_MOVIES"){directory = Environment.DIRECTORY_MOVIES}
-        if(albumType == "DIRECTORY_PICTURES"){directory = Environment.DIRECTORY_PICTURES}
-        if (toDcim) {
+        var directory = Environment.DIRECTORY_DCIM
+
+        if(toMovies){directory = Environment.DIRECTORY_MOVIES}
+        else if( toPictures){directory = Environment.DIRECTORY_PICTURES}
+        else if (toDcim) {
             directory = Environment.DIRECTORY_DCIM
         }
 
-        val albumDir = File(getAlbumFolderPath(folderName,  toDcim,albumType))
+        val albumDir = File(getAlbumFolderPath(folderName,  toDcim,toMovies,toPictures))
         val videoFilePath = File(albumDir, inputFile.name).absolutePath
 
         val values = ContentValues()
@@ -286,11 +292,15 @@ class FilesUtils {
     fun getAlbumFolderPathWithCall(call: MethodCall): String{
         var folderName =""
         var toDcim = false
-        var albumType = ""
+        var toMovies = false
+        var toPictures = false
+        //var albumType = ""
         toDcim =call.argument<Boolean>("toDcim") as Boolean
+        toMovies =call.argument<Boolean>("toMovies") as Boolean
+        toPictures =call.argument<Boolean>("toPictures") as Boolean
         folderName = call.argument<String>("folderName")as String
-        albumType = call.argument<String>("albumType") as String
-        return getAlbumFolderPath(folderName,toDcim,albumType);
+       // albumType = call.argument<String>("albumType") as String
+        return getAlbumFolderPath(folderName,toDcim,toMovies,toPictures);
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -298,24 +308,35 @@ class FilesUtils {
         folderName: String?,
         //mediaType: MediaType,
         toDcim: Boolean,
-        albumType: String
+        toMovies: Boolean,
+        toPictures: Boolean,
     ): String {
         var albumFolderPath: String = Environment.getRootDirectory().path
-        print("albumFolderPath:" +albumFolderPath)
+
+        //print("albumFolderPath:" +albumFolderPath)
 
         if (toDcim && android.os.Build.VERSION.SDK_INT < 29) {
             albumFolderPath += File.separator + Environment.DIRECTORY_DCIM;
         }
+
         albumFolderPath = if (TextUtils.isEmpty(folderName)) {
 //            var baseFolderName = if (mediaType == MediaType.image)
 //                Environment.DIRECTORY_PICTURES else
 //                Environment.DIRECTORY_MOVIES
-            var baseFolderName = getEnvironmentfile(albumType)
+            var baseFolderName = Environment.DIRECTORY_DCIM;
 
-            if (toDcim) {
+            if (toMovies) {
+                baseFolderName = Environment.DIRECTORY_MOVIES;
+            }
+            else if (toPictures) {
+                baseFolderName =Environment.DIRECTORY_PICTURES;
+            }
+            else if (toDcim) {
                 baseFolderName = Environment.DIRECTORY_DCIM;
             }
+
             createDirIfNotExist(
+
                 Environment.getExternalStoragePublicDirectory(baseFolderName).path
             ) ?: albumFolderPath
         } else {

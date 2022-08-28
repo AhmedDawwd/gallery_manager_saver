@@ -70,8 +70,9 @@ class MethodChannelGalleryManagerSaver extends GalleryManagerSaverPlatform {
   Future<bool?> saveImage(
     String path, {
     String? albumName,
-    String? albumType,
     bool? toDcim = false,
+    bool? toMovies = false,
+    bool? toPictures = false,
     Map<String, String>? headers,
   }) async {
     File? tempFile;
@@ -92,7 +93,8 @@ class MethodChannelGalleryManagerSaver extends GalleryManagerSaverPlatform {
         'path': path,
         'albumName': albumName,
         'toDcim': toDcim,
-        'albumType': albumType
+        'toMovies': toMovies,
+        'toPictures': toPictures,
       },
     );
     if (tempFile != null) {
@@ -107,8 +109,9 @@ class MethodChannelGalleryManagerSaver extends GalleryManagerSaverPlatform {
   Future<bool?> saveVideo(
     String path, {
     String? albumName,
-    String? albumType,
     bool? toDcim = false,
+    bool? toMovies = false,
+    bool? toPictures = false,
     Map<String, String>? headers,
   }) async {
     File? tempFile;
@@ -128,7 +131,8 @@ class MethodChannelGalleryManagerSaver extends GalleryManagerSaverPlatform {
         'path': path,
         'albumName': albumName,
         'toDcim': toDcim,
-        'albumType': albumType
+        'toMovies': toMovies,
+        'toPictures': toPictures,
       },
     );
     if (tempFile != null) {
@@ -158,12 +162,17 @@ class MethodChannelGalleryManagerSaver extends GalleryManagerSaverPlatform {
   }
 
   @override
-  Future<String?> getAlbumFolderPathWithCall(
-      {String? albumName, String? albumType, bool? toDcim = false}) async {
+  Future<String?> getAlbumFolderPathWithCall({
+    String? albumName,
+    bool? toDcim = false,
+    bool? toMovies = false,
+    bool? toPictures = false,
+  }) async {
     return await methodChannel.invokeMethod('getAlbumFolderPathWithCall', {
       'albumName': albumName,
-      'albumType': albumType,
       'toDcim': toDcim,
+      'toMovies': toMovies,
+      'toPictures': toPictures,
     });
   }
 

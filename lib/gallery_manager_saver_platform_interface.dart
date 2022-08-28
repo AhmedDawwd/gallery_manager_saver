@@ -83,8 +83,9 @@ abstract class GalleryManagerSaverPlatform extends PlatformInterface {
   Future<bool?> saveVideo(
     String path, {
     String? albumName,
-    String? albumType,
     bool? toDcim,
+    bool? toMovies,
+    bool? toPictures,
     Map<String, String>? headers,
   }) {
     throw UnimplementedError('saveVideo() has not been implemented.');
@@ -93,8 +94,9 @@ abstract class GalleryManagerSaverPlatform extends PlatformInterface {
   Future<bool?> saveImage(
     String path, {
     String? albumName,
-    String? albumType,
     bool? toDcim,
+    bool? toMovies,
+    bool? toPictures,
     Map<String, String>? headers,
   }) {
     throw UnimplementedError('saveImage() has not been implemented.');
@@ -102,8 +104,9 @@ abstract class GalleryManagerSaverPlatform extends PlatformInterface {
 
   Future<String?> getAlbumFolderPathWithCall({
     String? albumName,
-    String? albumType,
     bool? toDcim,
+    bool? toMovies,
+    bool? toPictures,
   }) {
     throw UnimplementedError(
         'getAlbumFolderPathWithCall() has not been implemented.');

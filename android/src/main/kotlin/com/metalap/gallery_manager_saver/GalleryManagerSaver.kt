@@ -27,7 +27,9 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
     private var filePath: String = ""
     private var albumName: String = ""
     private var toDcim: Boolean = false
-    private  var albumType: String ="";
+    private var toMovies: Boolean = false
+    private var toPictures: Boolean = false
+
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -50,7 +52,9 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
         filePath = methodCall.argument<Any>(KEY_PATH)?.toString() ?: ""
         albumName = methodCall.argument<Any>(KEY_ALBUM_NAME)?.toString() ?: ""
         toDcim = methodCall.argument<Any>(KEY_TO_DCIM) as Boolean
-        albumType = methodCall.argument<Any>(KEY_ALBUM_TYPE ) as String?:""
+        toMovies =methodCall.argument<Boolean>(KEY_TO_MMVIES) as Boolean
+        toPictures =methodCall.argument<Boolean>(KEY_TO_PICTURES) as Boolean
+
         this.mediaType = mediaType
         this.pendingResult = result
 
@@ -88,9 +92,9 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
         uiScope.launch {
             val success = async(Dispatchers.IO) {
                 if (mediaType == MediaType.Video) {
-                    FilesUtils().insertVideo(activity.contentResolver, filePath, albumName,albumType, toDcim)
+                    FilesUtils().insertVideo(activity.contentResolver, filePath, albumName, toDcim,toMovies,toPictures)
                 } else {
-                    FilesUtils().insertImage(activity.contentResolver, filePath, albumName, toDcim,albumType)
+                    FilesUtils().insertImage(activity.contentResolver, filePath, albumName, toDcim,toMovies,toPictures)
                 }
             }
             success.await()
@@ -135,6 +139,8 @@ class GalleryManagerSaver internal constructor(private val activity: Activity) :
         private const val KEY_PATH = "path"
         private const val KEY_ALBUM_NAME = "albumName"
         private const val KEY_TO_DCIM = "toDcim"
+        private const val KEY_TO_MMVIES = "toMovies"
+        private const val KEY_TO_PICTURES = "toPictures"
         private const val KEY_ALBUM_TYPE = "albumType"
     }
 

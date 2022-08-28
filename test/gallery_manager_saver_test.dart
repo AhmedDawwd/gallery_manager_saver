@@ -17,13 +17,6 @@ class MockGalleryManagerSaverPlatform
   }
 
   @override
-  Future<String?> getAlbumFolderPathWithCall(
-      {String? albumName, String? albumType, bool? toDcim}) {
-    // TODO: implement getAlbumFolderPathWithCall
-    throw UnimplementedError();
-  }
-
-  @override
   Future<String> getExternalStorageDefaultDirectoriesPath(String albumType) {
     // TODO: implement getExternalStorageDefaultDirectoriesPath
     throw UnimplementedError();
@@ -71,8 +64,9 @@ class MockGalleryManagerSaverPlatform
   @override
   Future<bool?> saveImage(String path,
       {String? albumName,
-      String? albumType,
       bool? toDcim,
+      bool? toMovies,
+      bool? toPictures,
       Map<String, String>? headers}) {
     // TODO: implement saveImage
     throw UnimplementedError();
@@ -81,10 +75,18 @@ class MockGalleryManagerSaverPlatform
   @override
   Future<bool?> saveVideo(String path,
       {String? albumName,
-      String? albumType,
       bool? toDcim,
+      bool? toMovies,
+      bool? toPictures,
       Map<String, String>? headers}) {
     // TODO: implement saveVideo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> getAlbumFolderPathWithCall(
+      {String? albumName, bool? toDcim, bool? toMovies, bool? toPictures}) {
+    // TODO: implement getAlbumFolderPathWithCall
     throw UnimplementedError();
   }
 }
