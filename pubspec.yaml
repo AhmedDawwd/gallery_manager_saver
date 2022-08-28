@@ -1,6 +1,6 @@
 name: gallery_manager_saver
 description: A Flutter Plugin about image or video file save in album ,support Android
-version: 0.0.2
+version: 0.0.1
 repository: https://github.com/AhmedDawwd/gallery_manager_saver.git
 
 environment:
